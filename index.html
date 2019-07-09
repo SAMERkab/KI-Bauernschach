@@ -32,7 +32,7 @@
     <title></title>
   </head>
   <body>
-    <table border="1">
+    <table id="board">
       <tbody>
         <tr>
           <th>1</th>
@@ -62,6 +62,16 @@
         </tr>
       </tfoot>
     </table>
+    <script src="Board.js"></script>
+    <script src="Pawn.js"></script>
+    <script src="index.js"></script>
+    <script>
+      let DOMTable = document.getElementById("board");
+      let pawnTemplate = document.getElementById("pawnTemplate");
+
+      let pawn = new Pawn(2, 1, false);
+      let board = new Board(DOMTable, pawnTemplate, [pawn]);
+    </script>
   </body>
   <template id="pawnTemplate"><span></span></template
 </html>
