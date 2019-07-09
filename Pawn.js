@@ -14,6 +14,7 @@ class Pawn {
         this.row += this.isAI ? -1 : 1;
         this.col += dir;
         board.update(this);
+        board.resetHighlight();
     }
 
 

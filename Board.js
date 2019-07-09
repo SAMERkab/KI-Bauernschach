@@ -49,6 +49,15 @@ class Board {
     }
 
 
+    resetHighlight() {
+        for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+                this.DOMTable.children[row].children[col].classList.remove("highlightedToMove", "highlightedToAttack");
+            }
+        }
+    }
+
+
     emptyCell(row, col) {
         cell = this.DOMTable.children[row].children[col];
         cell.removeChild(cell.firstElementChild);
