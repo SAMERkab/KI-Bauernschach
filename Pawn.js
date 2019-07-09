@@ -11,10 +11,10 @@ class Pawn {
     move(dir) {
         this.lastRow = this.row;
         this.lastCol = this.col;
-        this.row += this.isAI ? -1 : 1;
+        this.row += this.isAI ? 1 : -1;
         this.col += dir;
-        board.update(this);
         board.resetHighlight();
+        board.update(this);
     }
 
 
@@ -22,23 +22,23 @@ class Pawn {
         if (!this.isAI) {
             let allowedMoves = this.getAllowedMoves();
             for (let move of allowedMoves) {
-                board.highlightCell(this.row+1, this.col+move);
+                board.highlightCell(this.row-1, this.col+move, this);
             }
         }
     }
 
 
     getAllowedMoves() {
-        let allowedMoves;
+        let allowedMoves = [];
 
         if (this.isAI) {
 
         } else {
-            if ( !board.cellIsOccupied(this.row+1, this.col) )
+            if ( !board.cellIsOccupied(this.row-1, this.col) )
                 allowedMoves.push(0);
-            if ( this.col > 0 && board.cellIsOccupied(this.row+1, this.col-1))
+            if (this.col > 0 && board.cellIsOccupied(this.row-1, this.col-1) && board.getPawnAt(this.row-1, this.col-1).isAI)
                 allowedMoves.push(-1);
-            if ( this.col < 2 && board.cellIsOccupied(this.row+1, this.col+1))
+            if (this.col < 2 && board.cellIsOccupied(this.row-1, this.col+1) && board.getPawnAt(this.row-1, this.col+1).isAI)
                 allowedMoves.push(1);
         }
 
