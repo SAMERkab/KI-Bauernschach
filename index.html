@@ -2,35 +2,8 @@
 <html lang="de" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <style type="text/css">
-      table, td {
-        text-align: center;
-        border: 1px solid black;
-        border-collapse: collapse;
-      }
-      td {
-        padding: 10px;
-        width: 50px;
-        height: 50px;
-        border: 1px solid black;
-      }
-      .highlightedToMove {
-        background-color: rgb(34, 240, 34);
-        cursor: pointer;
-      }
-      .highlightedToAttack {
-        background-color: rgb(228, 94, 85);
-        cursor: pointer;
-      }
-      span {
-        border-radius: 50%;
-        height: 15px;
-        width: 15px;
-        display: inline-block;
-        background-color: black;
-      }
-    </style>
-    <title></title>
+    <link rel="stylesheet" href="style.css">
+    <title>KI-Bauernschach</title>
   </head>
 
   <body>
@@ -52,8 +25,10 @@
           <td></td>
         </tr>
       </tbody>
-      <template id="pawnTemplate"><span></span></template>
     </table>
+    <template id="pawnTemplate">
+      <span class="pawn"></span>
+    </template>
 
     <script src="Board.js"></script>
     <script src="Pawn.js"></script>
@@ -63,9 +38,16 @@
       let pawnTemplate = document.getElementById("pawnTemplate");
 
       let pawns = [];
+      for (let i = 0; i < 3; i++) {
+        pawns.push(Array(3).fill(null));
+      }
+      pawns[2][0] = new Pawn(2, 0, false);
+      pawns[2][1] = new Pawn(2, 1, false);
+      pawns[2][2] = new Pawn(2, 2, false);
+      pawns[0][0] = new Pawn(0, 0, true);
+      pawns[0][1] = new Pawn(0, 1, true);
+      pawns[0][2] = new Pawn(0, 2, true);
 
-      pawns.push(new Pawn(2, 1, false));
-      pawns.push(new Pawn(1, 0, false));
       let board = new Board(DOMTable, pawnTemplate, pawns);
     </script>
   </body>
