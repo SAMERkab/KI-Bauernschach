@@ -33,7 +33,6 @@ class Board {
             if (this.pawns[row][col].isSelected) {
               this.resetHighlight();
             } else {
-              thisCell.classList.add("selectedCell");
               this.pawns[row][col].select();
             }
           } else if (
@@ -89,7 +88,6 @@ class Board {
       for (let col = 0; col < 3; col++) {
         cell = this.DOMTable.children[row].children[col];
         cell.classList.remove(
-          "selectedCell",
           "highlightedToMove",
           "highlightedToAttack",
           "highlightedMovingPawn",

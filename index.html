@@ -36,23 +36,5 @@
     <script src="Board.js"></script>
     <script src="Pawn.js"></script>
     <script src="index.js"></script>
-    <script>
-      let DOMTable = document.getElementById("board");
-      let playerPawnTemplate = document.getElementById("playerPawnTemplate");
-      let AIPawnTemplate = document.getElementById("AIPawnTemplate");
-
-      let pawns = [];
-      for (let i = 0; i < 3; i++) {
-        pawns.push(Array(3).fill(null));
-      }
-      pawns[2][0] = new Pawn(2, 0, false);
-      pawns[2][1] = new Pawn(2, 1, false);
-      pawns[2][2] = new Pawn(2, 2, false);
-      pawns[0][0] = new Pawn(0, 0, true);
-      pawns[0][1] = new Pawn(0, 1, true);
-      pawns[0][2] = new Pawn(0, 2, true);
-
-      let board = new Board(DOMTable, pawns, playerPawnTemplate, AIPawnTemplate);
-    </script>
   </body>
 </html>
