@@ -63,6 +63,7 @@ class Pawn {
         }
     }
 }
-    
+  let result = badMoves.includes(id);
+  return result;
   }
 }
