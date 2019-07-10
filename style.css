@@ -1,6 +1,6 @@
 table, td {
   text-align: center;
-  border: 1px solid black;
+  border: 2px solid black;
   border-collapse: collapse;
 }
 
@@ -8,7 +8,11 @@ td {
   padding: 10px;
   width: 50px;
   height: 50px;
-  border: 1px solid black;
+  border: 2px solid black;
+}
+
+.selectedCell {
+  outline: 2px dotted rgb(53, 134, 255);
 }
 
 .highlightedToMove {
@@ -31,8 +35,18 @@ td {
 
 .pawn {
   border-radius: 50%;
-  height: 15px;
-  width: 15px;
+  height: 30px;
+  width: 30px;
+  padding: 15px 7.5px 0px 7.5px;
   display: inline-block;
-  background-color: black;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.playerPawn {
+  background-color: rgb(194, 197, 0);
+}
+
+.AIPawn {
+  background-color: rgb(190, 184, 184);
 }

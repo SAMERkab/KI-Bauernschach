@@ -22,6 +22,7 @@ class Pawn {
 
   select() {
     if (!this.isAI) {
+      board.resetHighlight();
       let allowedMoves = this.getAllowedMoves();
       for (let move of allowedMoves) {
         board.highlightCell(this.row - 1, this.col + move, this);
@@ -38,9 +39,9 @@ class Pawn {
     } else {
       if (!board.cellIsOccupied(this.row - 1, this.col))
         allowedMoves.push(0);
-      if (this.col > 0 && board.cellIsOccupied(this.row - 1, this.col - 1) && board.getPawnAt(this.row - 1, this.col - 1).isAI)
+      if (this.col > 0 && board.cellIsOccupied(this.row-1, this.col-1) && board.pawns[this.row-1][this.col-1].isAI)
         allowedMoves.push(-1);
-      if (this.col < 2 && board.cellIsOccupied(this.row - 1, this.col + 1) && board.getPawnAt(this.row - 1, this.col + 1).isAI)
+      if (this.col < 2 && board.cellIsOccupied(this.row-1, this.col+1) && board.pawns[this.row-1][this.col+1].isAI)
         allowedMoves.push(1);
     }
 

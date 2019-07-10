@@ -26,8 +26,11 @@
         </tr>
       </tbody>
     </table>
-    <template id="pawnTemplate">
-      <span class="pawn"></span>
+    <template id="playerPawnTemplate">
+      <span class="pawn playerPawn">X</span>
+    </template>
+    <template id="AIPawnTemplate">
+      <span class="pawn AIPawn">O</span>
     </template>
 
     <script src="Board.js"></script>
@@ -35,7 +38,8 @@
     <script src="index.js"></script>
     <script>
       let DOMTable = document.getElementById("board");
-      let pawnTemplate = document.getElementById("pawnTemplate");
+      let playerPawnTemplate = document.getElementById("playerPawnTemplate");
+      let AIPawnTemplate = document.getElementById("AIPawnTemplate");
 
       let pawns = [];
       for (let i = 0; i < 3; i++) {
@@ -48,7 +52,7 @@
       pawns[0][1] = new Pawn(0, 1, true);
       pawns[0][2] = new Pawn(0, 2, true);
 
-      let board = new Board(DOMTable, pawnTemplate, pawns);
+      let board = new Board(DOMTable, pawns, playerPawnTemplate, AIPawnTemplate);
     </script>
   </body>
 </html>
