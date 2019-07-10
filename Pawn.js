@@ -49,6 +49,19 @@ class Pawn {
 
 
   isBadMove(dir) {
-
+    id="";
+    for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 3; col++) {
+		let pawn = board.pawns[row][col];
+		if (pawn !== null) {
+            id += pawn.row;
+            id += pawn.col;
+            id += pawn.isAI;
+        } else {
+			id += " ";
+        }
+    }
+}
+    
   }
 }
