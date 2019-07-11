@@ -12,7 +12,7 @@ document.addEventListener("playerTurnFinished", () => {
 });
 document.addEventListener("gameFinished", (e) => {
   setTimeout(() => {
-    if (e.detail == 0) {
+    if (e.detail == "AI") {
       alert("Die KI hat gewonnen.");
     } else {
       alert("Du hast gewonnen.");
@@ -50,13 +50,27 @@ function AIPlay() {
     }
     selectedPawn.AIMove();
     isAITurn = false;
+    checkGameFinished();
   } else {
     selectedPawn.cantMove = true;
     if (pawnsObject.AIPawns.every(pawn => pawn.cantMove)) {
-      document.dispatchEvent(new CustomEvent("gameFinished", { detail: 1 }));
+      endGame("player");
     } else {
       AIPlay();
     }
+  }
+}
+
+
+function checkGameFinished() {
+  if (pawnsObject.AIPawns.length == 0) {
+    endGame("player");
+  } else if (pawnsObject.playerPawns.length == 0) {
+    endGame("AI");
+  }
+
+  if (!pawnsObject.playerPawns.some(pawn => pawn.canMove())) {
+    endGame("AI");
   }
 }
 
@@ -72,4 +86,12 @@ function playAgain() {
   DOMTable.parentNode.replaceChild(newTable, DOMTable);
   DOMTable = newTable;
   startGame();
+}
+
+
+function endGame(winner) {
+  if (winner == "player") {
+    badBoards.push(pawnsObject.generateIdForPawns(pawnsObject.lastAllPawns));
+  }
+  document.dispatchEvent(new CustomEvent("gameFinished", { detail: winner }));
 }

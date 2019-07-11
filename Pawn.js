@@ -19,12 +19,11 @@ class Pawn {
 
     if (this.isAI) {
       if (this.row === ROWS_COUNT - 1) {
-        document.dispatchEvent( new CustomEvent("gameFinished", {detail: 0}) );
+        endGame("AI");
       }
     } else {
       if (this.row == 0) {
-        badBoards.push( this.generateIdForBoard(pawnsObject.lastAllPawns) );
-        document.dispatchEvent(new CustomEvent("gameFinished", { detail: 1 }));
+        endGame("player");
       } else {
         isAITurn = true;
         document.dispatchEvent(playerTurnFinishedEvent);
@@ -90,26 +89,8 @@ class Pawn {
 
   isBadMove(dir) {
     let newBoard = this.evalMove(dir);
-    let id = this.generateIdForBoard(newBoard);
+    let id = pawnsObject.generateIdForPawns(newBoard);
     return badBoards.includes(id);
-  }
-
-
-  generateIdForBoard(allPawns) {
-    let id = "";
-    for (let row = 0; row < ROWS_COUNT; row++) {
-      for (let col = 0; col < COLS_COUNT; col++) {
-        let pawn = allPawns[row][col];
-        if (pawn) {
-          id += pawn.row;
-          id += pawn.col;
-          id += pawn.isAI;
-        } else {
-          id += " ";
-        }
-      }
-    }
-    return id;
   }
 
 

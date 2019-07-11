@@ -75,4 +75,22 @@ class PawnsObject {
     return null;
   }
 
+
+  generateIdForPawns(allPawns) {
+    let id = "";
+    for (let row = 0; row < ROWS_COUNT; row++) {
+      for (let col = 0; col < COLS_COUNT; col++) {
+        let pawn = allPawns[row][col];
+        if (pawn) {
+          id += pawn.row;
+          id += pawn.col;
+          id += pawn.isAI;
+        } else {
+          id += " ";
+        }
+      }
+    }
+    return id;
+  }
+
 }
