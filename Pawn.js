@@ -6,7 +6,6 @@ class Pawn {
     this.lastCol = null;
     this.isAI = isAI;
     this.isSelected = false;
-    this.badBoards = [];
   }
 
 
@@ -24,6 +23,7 @@ class Pawn {
       }
     } else {
       if (this.row == 0) {
+        badBoards.push( this.generateIdForBoard(pawnsObject.lastAllPawns) );
         document.dispatchEvent(new CustomEvent("gameFinished", { detail: 1 }));
       } else {
         isAITurn = true;
@@ -64,7 +64,7 @@ class Pawn {
         allowedMoves.push(-1);
       if (this.col < 2 && rightPawn && !rightPawn.isAI)
         allowedMoves.push(1);
-      allowedMoves.filter(move => !this.isBadMove(move));
+      allowedMoves = allowedMoves.filter(move => !this.isBadMove(move));
 
     } else {
 
@@ -89,6 +89,37 @@ class Pawn {
 
 
   isBadMove(dir) {
-    return false;
+    let newBoard = this.evalMove(dir);
+    let id = this.generateIdForBoard(newBoard);
+    return badBoards.includes(id);
   }
+
+
+  generateIdForBoard(allPawns) {
+    let id = "";
+    for (let row = 0; row < ROWS_COUNT; row++) {
+      for (let col = 0; col < COLS_COUNT; col++) {
+        let pawn = allPawns[row][col];
+        if (pawn) {
+          id += pawn.row;
+          id += pawn.col;
+          id += pawn.isAI;
+        } else {
+          id += " ";
+        }
+      }
+    }
+    return id;
+  }
+
+
+  evalMove(dir) {
+    let allPawns = JSON.parse(JSON.stringify(pawnsObject.allPawns));
+    let newRow = this.row + 1, newCol = this.col + dir;
+    let newPawn = new Pawn(newRow, newCol, this.isAI);
+    allPawns[this.row][this.col] = null;
+    allPawns[newRow][newCol] = newPawn;
+    return allPawns;
+  }
+
 }

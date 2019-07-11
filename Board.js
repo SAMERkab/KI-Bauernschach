@@ -1,10 +1,8 @@
 class Board {
-  constructor(DOMTable, playerPawnTemplate, AIPawnTemplate, rowsCount=3, colsCount=3) {
+  constructor(DOMTable, playerPawnTemplate, AIPawnTemplate) {
     this.DOMTable = DOMTable;
     this.playerPawnTemplate = playerPawnTemplate;
     this.AIPawnTemplate = AIPawnTemplate;
-    this.rowsCount = rowsCount;
-    this.colsCount = colsCount;
 
     this.setup();
   }
@@ -12,8 +10,8 @@ class Board {
 
   setup() {
     let cell, pawn, pawnNode;
-    for (let row = 0; row < 3; row++) {
-      for (let col = 0; col < 3; col++) {
+    for (let row = 0; row < ROWS_COUNT; row++) {
+      for (let col = 0; col < COLS_COUNT; col++) {
         cell = this.DOMTable.children[row].children[col];
         pawn = pawnsObject.getPawn(row, col);
         if (pawn) {
@@ -47,11 +45,7 @@ class Board {
 
   update(pawn) {
     this.emptyCell(pawn.row, pawn.col);
-    pawnsObject.removePawn(pawn.lastRow, pawn.lastCol);
-    if (pawnsObject.getPawn(pawn.row, pawn.col)) {
-      pawnsObject.removePawn(pawn.row, pawn.col);
-    }
-    pawnsObject.addPawn(pawn);
+    pawnsObject.updatePawn(pawn);
     let oldPawnNode = this.DOMTable.children[pawn.lastRow].children[pawn.lastCol].firstElementChild;
     this.DOMTable.children[pawn.row].children[pawn.col].appendChild(oldPawnNode);
   }
@@ -75,8 +69,8 @@ class Board {
 
   resetHighlight() {
     let cell;
-    for (let row = 0; row < 3; row++) {
-      for (let col = 0; col < 3; col++) {
+    for (let row = 0; row < ROWS_COUNT; row++) {
+      for (let col = 0; col < COLS_COUNT; col++) {
         cell = this.DOMTable.children[row].children[col];
         cell.classList.remove(
           "highlightedToMove",

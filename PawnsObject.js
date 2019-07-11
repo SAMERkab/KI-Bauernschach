@@ -1,6 +1,7 @@
 class PawnsObject {
   constructor(pawns) {
     this.allPawns = Array(ROWS_COUNT).fill(null).map(row => Array(COLS_COUNT).fill(null));
+    this.lastAllPawns = null;
     this.playerPawns = [];
     this.AIPawns = [];
 
@@ -49,10 +50,22 @@ class PawnsObject {
   }
 
 
+  updatePawn(pawn) {
+    this.lastAllPawns = JSON.parse(JSON.stringify(this.allPawns));
+    this.lastAllPawns[pawn.lastRow][pawn.lastCol].row = pawn.lastRow;
+    this.lastAllPawns[pawn.lastRow][pawn.lastCol].col = pawn.lastCol;
+    this.removePawn(pawn.lastRow, pawn.lastCol);
+    if (this.getPawn(pawn.row, pawn.col)) {
+      this.removePawn(pawn.row, pawn.col);
+    }
+    this.addPawn(pawn);
+  }
+
+
   getSelectedPawn() {
     let pawn;
-    for (let row = 0; row < 3; row++) {
-      for (let col = 0; col < 3; col++) {
+    for (let row = 0; row < ROWS_COUNT; row++) {
+      for (let col = 0; col < COLS_COUNT; col++) {
         pawn = this.getPawn(row, col);
         if (pawn && pawn.isSelected) {
           return pawn;
