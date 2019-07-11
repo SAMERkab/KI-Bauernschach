@@ -54,6 +54,7 @@ class Board {
   highlightCell(row, col, pawn) {
     let cell = this.DOMTable.children[row].children[col];
     let pawnCell = this.DOMTable.children[pawn.row].children[pawn.col];
+    pawnCell.firstElementChild.classList.add("selectedPawn");
     pawn.isSelected = true;
     if (pawnsObject.getPawn(row, col)) {
       cell.classList.add("highlightedToAttack");
@@ -67,12 +68,34 @@ class Board {
   }
 
 
+  highlightCellForAI(row, col, pawn) {
+    let cell = this.DOMTable.children[row].children[col];
+    let pawnCell = this.DOMTable.children[pawn.row].children[pawn.col];
+    pawnCell.firstElementChild.classList.add("selectedPawn");
+    if (pawnsObject.getPawn(row, col)) {
+      cell.classList.add("highlightedToAttack");
+      pawnCell.classList.add("highlightedAttackingPawn");
+    } else {
+      cell.classList.add("highlightedToMove");
+      pawnCell.classList.add("highlightedMovingPawn");
+    }
+  }
+
+
+  highlightBadCell(row, col, pawn) {
+    this.DOMTable.children[pawn.row].children[pawn.col].firstElementChild.classList.add("selectedPawn");
+    let cell = this.DOMTable.children[row].children[col];
+    cell.classList.add("badCell");
+  }
+
+
   resetHighlight() {
     let cell;
     for (let row = 0; row < ROWS_COUNT; row++) {
       for (let col = 0; col < COLS_COUNT; col++) {
         cell = this.DOMTable.children[row].children[col];
         cell.classList.remove(
+          "badCell",
           "highlightedToMove",
           "highlightedToAttack",
           "highlightedMovingPawn",
@@ -80,6 +103,7 @@ class Board {
         );
         if (pawnsObject.getPawn(row, col)) {
           pawnsObject.getPawn(row, col).isSelected = false;
+          cell.firstElementChild.classList.remove("selectedPawn");
         }
         cell.removeEventListener("click", this.attackListenerForCell);
         cell.removeEventListener("click", this.moveListenerForCell);

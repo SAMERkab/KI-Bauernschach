@@ -5,10 +5,10 @@ const playerTurnFinishedEvent = new Event("playerTurnFinished");
 let DOMTable = document.getElementById("board");
 let playerPawnTemplate = document.getElementById("playerPawnTemplate");
 let AIPawnTemplate = document.getElementById("AIPawnTemplate");
-let pawnsObject, board, badBoards = [], isAITurn = false;
+let pawnsObject, board, badBoards, isAITurn = false;
 
 document.addEventListener("playerTurnFinished", () => {
-  setTimeout(AIPlay, 500);
+  setTimeout(AIPlay, 250);
 });
 document.addEventListener("gameFinished", (e) => {
   setTimeout(() => {
@@ -25,6 +25,7 @@ startGame();
 
 
 function startGame() {
+  badBoards = JSON.parse( localStorage.getItem("badBoards") ) || [];
   pawnsObject = new PawnsObject({
     player: [
       [2, 0],
@@ -44,13 +45,20 @@ function startGame() {
 
 function AIPlay() {
   let selectedPawn = pawnsObject.AIPawns[Math.floor(Math.random() * pawnsObject.AIPawns.length)];
-  if (selectedPawn.canMove()) {
-    for (let pawn of pawnsObject.AIPawns) {
-      pawn.cantMove = false;
-    }
-    selectedPawn.AIMove();
-    isAITurn = false;
-    checkGameFinished();
+  let allowedMoves = selectedPawn.select();
+
+  if (allowedMoves.length > 0) {
+
+    setTimeout(() => {
+      for (let pawn of pawnsObject.AIPawns) {
+        pawn.cantMove = false;
+      }
+      let randomMove = allowedMoves[Math.floor(Math.random() * allowedMoves.length)];
+      selectedPawn.move(randomMove);
+      isAITurn = false;
+      checkGameFinished();
+    }, 500);
+
   } else {
     selectedPawn.cantMove = true;
     if (pawnsObject.AIPawns.every(pawn => pawn.cantMove)) {
@@ -59,6 +67,7 @@ function AIPlay() {
       AIPlay();
     }
   }
+
 }
 
 
@@ -67,9 +76,7 @@ function checkGameFinished() {
     endGame("player");
   } else if (pawnsObject.playerPawns.length == 0) {
     endGame("AI");
-  }
-
-  if (!pawnsObject.playerPawns.some(pawn => pawn.canMove())) {
+  } else if (!pawnsObject.playerPawns.some(pawn => pawn.canMove())) {
     endGame("AI");
   }
 }
@@ -92,6 +99,7 @@ function playAgain() {
 function endGame(winner) {
   if (winner == "player") {
     badBoards.push(pawnsObject.generateIdForPawns(pawnsObject.lastAllPawns));
+    localStorage.setItem( "badBoards", JSON.stringify(badBoards) );
   }
   document.dispatchEvent(new CustomEvent("gameFinished", { detail: winner }));
 }

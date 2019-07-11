@@ -17,26 +17,34 @@ td {
   padding-top: 10%;
 }
 
+.badCell {
+  background-color: rgba(119, 119, 119, 0.5);
+}
+
+.selectedPawn {
+  box-shadow: inset 0px 0px 14px 1px rgb(53, 255, 211);
+}
+
 .selectedCell {
   outline: 2px dotted rgb(53, 134, 255);
 }
 
 .highlightedToMove {
-  background-color: rgb(34, 240, 34);
+  background-color: rgba(0, 255, 0, 0.5);
   cursor: pointer;
 }
 
 .highlightedToAttack {
-  background-color: rgb(228, 94, 85);
+  background-color: rgba(255, 0, 0, 0.5);
   cursor: pointer;
 }
 
 .highlightedMovingPawn {
-  background-color: rgb(101, 204, 101);
+  box-shadow: inset 0px 0px 6px 0px rgb(107, 255, 114);
 }
 
 .highlightedAttackingPawn {
-  background-color: rgb(219, 156, 152);
+  box-shadow: inset 0px 0px 6px 0px rgb(255, 122, 140);
 }
 
 .pawn {

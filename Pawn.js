@@ -33,20 +33,26 @@ class Pawn {
 
 
   select() {
+    let allowedMoves = this.getAllowedMoves();
+    board.resetHighlight();
     if (!this.isAI && !isAITurn) {
-      board.resetHighlight();
-      let allowedMoves = this.getAllowedMoves();
       for (let move of allowedMoves) {
         board.highlightCell(this.row - 1, this.col + move, this);
       }
+    } else {
+      allowedMoves = allowedMoves.filter((move) => {
+        if (this.isBadMove(move)) {
+          board.highlightBadCell(this.row + 1, this.col + move, this);
+          return false;
+        } else {
+          return true;
+        }
+      });
+      for (let move of allowedMoves) {
+        board.highlightCellForAI(this.row + 1, this.col + move, this);
+      }
     }
-  }
-
-
-  AIMove() {
-    let allowedMoves = this.getAllowedMoves();
-    let AIMove = allowedMoves[Math.floor(Math.random() * allowedMoves.length)];
-    this.move(AIMove);
+    return allowedMoves;
   }
 
 
@@ -63,7 +69,6 @@ class Pawn {
         allowedMoves.push(-1);
       if (this.col < 2 && rightPawn && !rightPawn.isAI)
         allowedMoves.push(1);
-      allowedMoves = allowedMoves.filter(move => !this.isBadMove(move));
 
     } else {
 
