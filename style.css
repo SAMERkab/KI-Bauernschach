@@ -1,6 +1,11 @@
+html {
+  user-select: none;
+}
+
 table {
   align-items: center;
 }
+
 table, td {
   text-align: center;
   border: 2px solid black;
